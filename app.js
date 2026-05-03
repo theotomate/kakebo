@@ -723,6 +723,58 @@ function resetApp() {
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 
+async function downloadPDF() {
+  const btn = document.getElementById('btn-download-pdf');
+  const original = btn.textContent;
+  btn.textContent = '⏳ Génération…';
+  btn.disabled = true;
+
+  // Hide action buttons from the capture
+  const actions = document.querySelector('.dashboard-actions');
+  actions.style.visibility = 'hidden';
+
+  try {
+    const dashboard = document.getElementById('section-dashboard');
+    const canvas = await html2canvas(dashboard, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#0f1117',
+      scrollY: -window.scrollY,
+      windowWidth: dashboard.scrollWidth,
+      windowHeight: dashboard.scrollHeight,
+    });
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    const pageW  = pdf.internal.pageSize.getWidth();
+    const pageH  = pdf.internal.pageSize.getHeight();
+    const imgW   = pageW;
+    const imgH   = (canvas.height * pageW) / canvas.width;
+    const imgData = canvas.toDataURL('image/jpeg', 0.92);
+
+    let remaining = imgH;
+    let offset    = 0;
+
+    while (remaining > 0) {
+      pdf.addImage(imgData, 'JPEG', 0, -offset, imgW, imgH);
+      remaining -= pageH;
+      offset    += pageH;
+      if (remaining > 0) pdf.addPage();
+    }
+
+    const month = new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    pdf.save(`kakebo-${month}.pdf`);
+    showToast('PDF téléchargé ✓');
+  } catch (e) {
+    showToast('Erreur lors de la génération du PDF');
+  } finally {
+    actions.style.visibility = '';
+    btn.textContent = original;
+    btn.disabled = false;
+  }
+}
+
 function init() {
   renderExpensePanels();
 
@@ -767,6 +819,8 @@ function init() {
   });
 
   // Back to edit
+  document.getElementById('btn-download-pdf').addEventListener('click', downloadPDF);
+
   document.getElementById('btn-back-edit').addEventListener('click', () => {
     navigateTo('input');
   });

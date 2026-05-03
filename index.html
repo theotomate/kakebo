@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
@@ -132,6 +134,9 @@
         <p class="dashboard-subtitle" id="dashboard-date"></p>
       </div>
       <div class="dashboard-actions">
+        <button id="btn-download-pdf" class="btn-ghost">
+          ⬇ PDF
+        </button>
         <button id="btn-back-edit" class="btn-ghost">
           ✏️ Modifier
         </button>
@@ -220,6 +225,6 @@
   <!-- TOAST -->
   <div id="toast" class="toast hidden"></div>
 
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
