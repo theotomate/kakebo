@@ -441,15 +441,17 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
 /* Sticky Bar */
 .sticky-bar {
   position: fixed;
-  bottom: 0;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
-  max-width: 640px;
+  width: calc(100% - 32px);
+  max-width: 608px;
   padding: 14px 20px;
-  background: rgba(26, 29, 39, 0.95);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid var(--border);
+  background: rgba(26, 29, 39, 0.97);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   display: flex;
   align-items: center;
   gap: 16px;
