@@ -641,6 +641,7 @@ function renderBarChart(totals) {
     },
     options: {
       indexAxis: 'y',
+      maintainAspectRatio: false,
       animation: { duration: 900, easing: 'easeInOutQuart' },
       plugins: {
         legend: { display: false },
